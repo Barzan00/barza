@@ -1,0 +1,24 @@
+.model small
+.stack 
+
+.data
+   Hi db 'Hello, World!', '$'
+    Hi2 db 'Hello, World!', '$'
+
+.code
+main:
+    mov ax, @data
+    mov ds, ax
+
+    mov ah, 09h         
+    lea dx, Hi       
+    int 21h
+   
+    mov ah, 4Ch         
+    int 21h
+
+end main
+
+
+
+****************************************************************
