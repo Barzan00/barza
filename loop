@@ -1,0 +1,41 @@
+.model small
+.stack 100h
+
+.data
+    count dw 10
+    newline db 0Ah, 0Dh, '$'
+
+.code
+main:
+    mov ax, @data
+    mov ds, ax
+
+loop_start:
+    ; Display current number
+    mov ax, count       ; Load count into ax
+    add ax, '0'         ; Convert count to ASCII
+    mov dl, al          ; Move the ASCII value to dl
+    mov ah, 02h         ; DOS function to display character
+    int 21h             ; Call DOS interrupt
+
+    ; Print newline
+    mov ah, 09h
+    lea dx, newline
+    int 21h
+
+    ; Increment count
+    inc count
+
+    ; Check if count exceeds 10
+    cmp count, 11
+    jge end_loop
+
+    ; Jump back to loop_start
+    jmp loop_start
+
+end_loop:
+    ; Terminate program
+    mov ah, 4Ch
+    int 21h
+
+end main
