@@ -1,0 +1,49 @@
+.model small
+.stack 100h
+
+.data
+    msg db 'Enter a number: $'
+    even_msg db 'The number is even.$'
+    odd_msg db 'The number is odd.$'
+
+    num dw ?
+
+.code
+main:
+    mov ax, @data
+    mov ds, ax
+
+    ; Prompt user for a number
+    mov ah, 09h
+    lea dx, msg
+    int 21h
+
+    ; Input number
+    mov ah, 01h
+    int 21h
+    sub al, '0'         ; Convert ASCII to binary
+    mov num, ax
+
+    ; Check if number is even or odd
+    mov ax, num
+    test ax, 1           ; Check the least significant bit
+    jz even              ; Jump if zero (even)
+    jmp odd
+  even:
+    mov ah, 09h
+    lea dx, even_msg
+    int 21h
+    jmp end_prog
+
+odd:
+    mov ah, 09h
+    lea dx, odd_msg
+    int 21h
+    jmp end_prog
+
+end_prog:
+    ; Terminate program
+    mov ah, 4Ch
+    int 21h
+
+end main
