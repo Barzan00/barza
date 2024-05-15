@@ -1,0 +1,72 @@
+.model small
+.stack 100h
+
+.data
+    Hi1 db 'Enter first number: $'
+    Hi2 db 'Enter second number: $'
+    result_msg db 'Result: $'
+    newline db 0Ah, 0Dh, '$'
+
+    num1 dw ?
+    num2 dw ?
+    result dw ?
+
+.code
+main:
+    mov ax, @data
+    mov ds, ax
+
+    ; Prompt user for first number
+    mov ah, 09h
+    lea dx, Hi1
+    int 21h
+
+    ; Input first number
+    mov ah, 01h
+    int 21h
+    sub al, '0'         ; Convert ASCII to binary
+    mov num1, ax
+
+    ; Prompt user for second number
+    mov ah, 09h
+    lea dx, hi2
+    int 21h
+
+    ; Input second number
+    mov ah, 01h
+    int 21h
+    sub al, '0'         ; Convert ASCII to binary
+    mov num2, ax
+    
+    ; Print newline
+    mov ah, 09h
+    lea dx, newline
+    int 21h
+
+    ; Add the numbers
+    mov ax, num1
+    add ax, num2
+    mov result, ax
+; Print newline
+   
+    ; Display result
+    mov ah, 09h
+    lea dx, result_msg
+    int 21h
+
+    mov ax, result
+    add ax, '0'         ; Convert binary to ASCII
+    mov dl, al
+    mov ah, 02h
+    int 21h
+
+    ; Print newline
+    mov ah, 09h
+    lea dx, newline
+    int 21h
+
+    ; Terminate program
+    mov ah, 4Ch
+    int 21h
+
+end main
